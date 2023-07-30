@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probation Countdown</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      background-color: #111;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-top: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    #currentTime {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    #countdown {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+
+    .progress-bar {
+      width: 60%;
+      margin: 0 auto;
+      height: 20px;
+      border-radius: 10px;
+      background-color: #444;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-color: #ff6363;
+      transition: width 1s linear;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Probation Countdown</h1>
+  <div id="currentTime">Current date and time: <span id="currentDateTime"></span></div>
+  <div id="countdown">Time left until May 2, 2024: <span id="timeLeft"></span></div>
+
+  <div class="progress-bar">
+    <div id="progress" class="progress"></div>
+  </div>
+
+  <script>
+    // Function to update the countdown timer and progress bar
+    function updateCountdown() {
+      const targetDate = new Date("2024-05-02");
+      const now = new Date();
+
+      // Calculate time left in milliseconds
+      const timeLeftMilliseconds = targetDate - now;
+
+      // Calculate days, hours, minutes, and seconds
+      const daysLeft = Math.floor(timeLeftMilliseconds / (1000 * 60 * 60 * 24));
+      const hoursLeft = Math.floor((timeLeftMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutesLeft = Math.floor((timeLeftMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+      const secondsLeft = Math.floor((timeLeftMilliseconds % (1000 * 60)) / 1000);
+
+      // Update the countdown element
+      document.getElementById("timeLeft").textContent = `${daysLeft} days, ${hoursLeft} hours, ${minutesLeft} minutes, ${secondsLeft} seconds`;
+
+      // Update the progress bar
+      const totalTime = (new Date("2024-05-02") - new Date("2023-05-02")) / (1000 * 60 * 60 * 24); // Total days
+      const daysPassed = (new Date() - new Date("2023-05-02")) / (1000 * 60 * 60 * 24); // Passed days
+      const progress = (daysPassed / totalTime) * 100;
+      document.getElementById("progress").style.width = progress + "%";
+    }
+
+    // Function to update the live time with seconds
+    function updateLiveTime() {
+      const now = new Date();
+      const formattedTime = now.toLocaleString();
+      document.getElementById("currentDateTime").textContent = formattedTime;
+    }
+
+    // Update the countdown and live time every second
+    setInterval(updateCountdown, 1000);
+    setInterval(updateLiveTime, 1000);
+  </script>
+</body>
+
+</html>
